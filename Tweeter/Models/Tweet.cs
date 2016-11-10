@@ -9,10 +9,10 @@ namespace Tweeter.Models
     {
         public int TweetId { get; set; }
         public string Message { get; set; }
-        public string Author { get; set; }
+        public ApplicationUser Author { get; set; } //gets data from dbo.AspNetUsers
         public string ImageURL { get; set; }
         public DateTime CreatedAt { get; set; }
-        public List<Tweet> Replies { get; set; }
+        public List<Tweet> Replies { get; set; } // Self referential (refers to model it is defined in through List<Tweet>)
     
     }
 }
