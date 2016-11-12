@@ -16,6 +16,22 @@
     white-space: normal;
 }
 
+.jumbotron.vertical-center{
+    margin-bottom: 0;
+}
+
+.vertical-center {
+    display: flex;
+    align-items: center;
+}
+
+.btn-xl{
+    padding: 34px 40px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 6px;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
