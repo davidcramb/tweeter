@@ -4,19 +4,20 @@
 }
 
 <h2>@ViewBag.Title.</h2>
+<section ng-controller="FormCtrl">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken();
+        <div>@Html.TextBox("username", "", new { placeholder = "Username", name = "username", maxlength = "20" })</div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    <div>@Html.TextBox("username","", new { placeholder = "Username", name = "username", maxlength = "20" })</div>
+        <div>@Html.TextBox("email", "", new { placeholder = "email", name = "email", maxlength = "30" })</div>
 
-    <div>@Html.TextBox("email","", new { placeholder = "email", name = "email", maxlength = "30" })</div>
-    
-    <div>@Html.TextBox("password", "", new { placeholder = "password", name = "password" })</div>
-    <div>@Html.TextBox("passwordvalidation","", new { placeholder = "validate password", name = "password_validation" })</div>
-    <button class="btn" ng-click="formSubmit($event, user)">Submit</button>
-}
-@{ Html.EndForm();}
-
+        <div>@Html.Password("password", "", new { placeholder = "password", name = "password" })</div>
+        <div>@Html.Password("passwordvalidation", "", new { placeholder = "validate password", name = "password_validation" })</div>
+        <button class="btn" ng-click="formSubmit($event, user)">Submit</button>
+    }
+    @{ Html.EndForm();}
+</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
