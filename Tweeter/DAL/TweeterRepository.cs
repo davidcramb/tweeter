@@ -10,6 +10,7 @@ namespace Tweeter.DAL
     public class TweeterRepository
     {
         public TweeterContext Context { get; set; }
+
         public TweeterRepository(TweeterContext _context)
         {
             Context = _context;
@@ -45,8 +46,8 @@ namespace Tweeter.DAL
 
 
         public bool UsernameExists(string v)
-        {
-            if (Context.Users.Any(u => u.UserName.Contains(v)))
+            {
+            if (Context.TweeterUsers.Any(u => u.TwitName.ToLower().Contains(v)))
             {
                 return true;
             }
@@ -74,9 +75,12 @@ namespace Tweeter.DAL
             }
             return TweetListById;
         }
-
-
-
+        public Twit GetTwitUser(int id)
+        {
+            //ApplicationUser found_application_user = Context.Users.FirstOrDefault(u => u.Id == id.ToString());
+            Twit found_user = Context.TweeterUsers.FirstOrDefault(u => u.TwitId == id);
+            return found_user;
+        }
         public void AddTweet(Tweet new_tweet)
         {
             Context.Tweets.Add(new_tweet);
@@ -93,6 +97,34 @@ namespace Tweeter.DAL
             var TweetById = Context.Tweets.SingleOrDefault(tweet => tweet.TweetId == id);
             Context.Tweets.Remove(TweetById);
             Context.SaveChanges();
+        }
+        public List<Twit> GetListOfTwitsUserFollows(int UserId)
+        {
+            //Twit user = Context.TweeterUsers.First(twit => twit.TwitId == UserId);
+            List<Twit> FollowerList = GetTwitUser(UserId).Follows;
+            if(!FollowerList.Any())
+            {
+                return null;
+            }
+            else
+            {
+                return FollowerList;
+            }
+        }
+
+        public void FollowUser(int UserId, int UserIdOfSomeIdiot)
+        {
+            Twit IdiotQuery = Context.TweeterUsers.SingleOrDefault(idiot => idiot.TwitId == UserIdOfSomeIdiot);
+            Twit userQuery = Context.TweeterUsers.SingleOrDefault(user => user.TwitId == UserId);
+            try
+            {
+                Context.TweeterUsers.SingleOrDefault(twit => twit.TwitId == UserId).Follows.Add(IdiotQuery);
+                Context.SaveChanges();
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

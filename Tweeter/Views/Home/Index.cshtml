@@ -9,34 +9,58 @@
     }
 }
 
-<div class="container">
+<div class="container container-main" ng-app="Tweeter" ng-controller="TweetCtrl">
+
     @if (!User.Identity.IsAuthenticated)
     {
         <div class="jumbotron vertical-center splash" style="@(ViewBag.IsAuthed ? "display:block" : "display:hidden")">
             <div class="container">
-
+                @*@Html.Action("Register", "Register")*@
                 <div class="center-block"><button type="button" class="btn btn-info btn-xl" name="join" id="button-join">Join Now!</button></div>
             </div>
         </div>
     }
-
-
-    <div class="row">
-        <div class="col-md-8">
-            @if (User.Identity.IsAuthenticated)
+    <div class="center-block">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-body">
+                    <img src="http://placehold.it/240x180" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                @if (User.Identity.IsAuthenticated)
             {
-                <div class="input-group">
-                    <div class="compose-box input-group">
-                        @Html.TextBoxFor(t => t.Message, new { @class = "form-control", placeholder = "Say something trite!", id = "form-compose-tweet" })
-                        <span class="input-group-addon" id="basic-addon1">+</span>
+                    <div class="input-group">
+                        <div class="compose-box input-group">
+                            @Html.TextBoxFor(t => t.Message, new { @class = "form-control", placeholder = "Say something trite!", id = "form-compose-tweet" })
+                            <span class="input-group-addon" id="basic-addon1">+</span>
+                        </div>
+                    </div>
+                }
+                <div ng-repeat="tweet in getTweets()">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">{{tweet.username}}</div>
+                        <div class="panel-body">
+                            <img ui-if="!!tweet.image" ng-show="!tweet.image" src="{{tweet.image}}" />
+                            <p>{{tweet.message}}</p>
+                        </div>
+                        <div class="panel-footer">{{tweet.date}}</div>
                     </div>
                 </div>
-            }
-            <div class="tweet-list">
-                @* Would it make sense to do unordered list? *@
-                <ul>
-                </ul>
+                @*<div class="panel panel-primary">
+                    <div class="panel panel-heading">
+                        <ul>
+                       <li class="list-group-item" ng-repeat="tweet in getTweets()">
+                                <strong>{{tweet.username}}</strong>
+                                <img src="{{tweet.image}}" />
+                                <p>{{tweet.message}}</p>
+                                <p>{{tweet.date}}</p>
+                         </li>
+                            </ul>
+                        </div>
+                    </div>*@
+
             </div>
         </div>
     </div>
-</div>
+    </div>

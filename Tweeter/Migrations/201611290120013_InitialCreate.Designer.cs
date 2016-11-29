@@ -13,7 +13,7 @@ namespace Tweeter.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201611100257595_InitialCreate"; }
+            get { return "201611290120013_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

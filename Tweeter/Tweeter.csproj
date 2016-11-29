@@ -188,9 +188,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611100257595_InitialCreate.cs" />
-    <Compile Include="Migrations\201611100257595_InitialCreate.Designer.cs">
-      <DependentUpon>201611100257595_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201611290120013_InitialCreate.cs" />
+    <Compile Include="Migrations\201611290120013_InitialCreate.Designer.cs">
+      <DependentUpon>201611290120013_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -208,9 +208,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -270,8 +274,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611100257595_InitialCreate.resx">
-      <DependentUpon>201611100257595_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611290120013_InitialCreate.resx">
+      <DependentUpon>201611290120013_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

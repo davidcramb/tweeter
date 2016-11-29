@@ -22,8 +22,14 @@ select,
 textarea {
     max-width: 280px;
 }
-.container {
+.navbar input {
+    position: absolute;
+    margin: 0 auto;
+    top: 12px;
+}
+.container-main {
     text-align: center;
+    margin-top: 2%;
 }
 
 .btn-xl{
@@ -31,4 +37,16 @@ textarea {
     line-height: inherit;
     width: 30%;
     font-size: 230%;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tweet-box{
+    
+    background-color: aquamarine;
+}
+.single-tweet{
+    background-color: aqua;
 }

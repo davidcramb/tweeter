@@ -1,13 +1,51 @@
-﻿$.ajax({
-    url: "/api/Tweet/",
-    method: 'GET'
-}).success(function (response) {
-    console.log(response);
-});
+﻿//$.ajax({
+//    url: "/api/Tweet/",
+//    method: 'GET'
+//}).success(function (response) {
+//    console.log(response);
+//});
+var app = angular.module("Tweeter", []);
+app.controller("TweetCtrl", function ($scope, $http) {
+    $scope.tweets = [
+        {
+            username: "Bob",
+            message: "Hello",
+            image: "",
+            date: "Nov, 21 2016"
+        },
+        {
+            username: "FloFromProgressive",
+            message: "I'm annoying!",
+            image: "http://placehold.it/350x150",
+            date: "Nov, 21 2016"
+        },
+        {
+            username: "JakeFromStateFarm",
+            message: "Buy insurance",
+            image: "http://placehold.it/350x150",
+            date: "TIME IS AN ILLUSION"
+        },
+    ];
+    $scope.running = false;
+
+    $scope.getTweets = () => {
+        if (!$scope.running) {
+            $scope.running = true;
+            $http.get("api/Tweet").success(function (response) {
+                console.log(response);
+                $scope.tweets = response;
+                console.log($scope.tweets);
+            }).error(function (error) {
+                console.log(error);
+            })
+            return $scope.tweets;
+        }
+    }
+})
 console.log('hi');  
 $("#register-username").keyup(function () {
     $("form").submit(true);
-    $("#username-ans").removeClass("glyphicon-ok");
+    $("#username-ans").removeClass("glyphicon-ok"); 
     $("#username-ans").removeClass("glyphicon-remove");
     $.ajax({
         url: "/api/TwitUsername?candidate=" + $(this).val(),
