@@ -173,6 +173,11 @@ namespace Tweeter.Tests.DAL
         [TestMethod]
         public void EnsureUserCannotFollowSelf()
         {
+            int BobFollowers = repo.GetListOfTwitsUserFollows(2).Count();
+            Assert.IsTrue(BobFollowers == 1); // In test, Bob only follows twit bot
+            Assert.IsTrue(Bob.TwitId == 2); // We'll pass in Bob's userId into the add follower method
+            repo.FollowUser(2, 2);
+            Assert.AreEqual(BobFollowers, repo.GetListOfTwitsUserFollows(2).Count());
 
         }
     }

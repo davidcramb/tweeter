@@ -102,15 +102,9 @@ namespace Tweeter.DAL
         {
             //Twit user = Context.TweeterUsers.First(twit => twit.TwitId == UserId);
             List<Twit> FollowerList = GetTwitUser(UserId).Follows;
-            Console.WriteLine(GetTwitUser(UserId));
-            Console.WriteLine(GetTwitUser(UserId).TwitName);
-            Console.WriteLine(GetTwitUser(UserId).Follows);
-
-
             if (FollowerList.Count() == 0)
             {
                 return FollowerList ?? Enumerable.Empty<Twit>().ToList();
-
             }
             else
             {
@@ -118,18 +112,20 @@ namespace Tweeter.DAL
             }
         }
 
-        public void FollowUser(int UserId, int UserIdOfSomeIdiot)
+        public void FollowUser(int UserId, int UserIdToFollow)
         {
-            Twit IdiotQuery = Context.TweeterUsers.SingleOrDefault(idiot => idiot.TwitId == UserIdOfSomeIdiot);
+            Twit IdiotQuery = Context.TweeterUsers.SingleOrDefault(idiot => idiot.TwitId == UserIdToFollow);
             Twit userQuery = Context.TweeterUsers.SingleOrDefault(user => user.TwitId == UserId);
-            try
-            {
-                Context.TweeterUsers.SingleOrDefault(twit => twit.TwitId == UserId).Follows.Add(IdiotQuery);
-                Context.SaveChanges();
-            }
-            catch (NullReferenceException e)
-            {
-                Console.WriteLine(e);
+            if (userQuery != IdiotQuery) {
+                try
+                {
+                    Context.TweeterUsers.SingleOrDefault(twit => twit.TwitId == UserId).Follows.Add(IdiotQuery);
+                    Context.SaveChanges();
+                }
+                catch (NullReferenceException e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
     }
