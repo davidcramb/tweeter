@@ -102,9 +102,15 @@ namespace Tweeter.DAL
         {
             //Twit user = Context.TweeterUsers.First(twit => twit.TwitId == UserId);
             List<Twit> FollowerList = GetTwitUser(UserId).Follows;
-            if(!FollowerList.Any())
+            Console.WriteLine(GetTwitUser(UserId));
+            Console.WriteLine(GetTwitUser(UserId).TwitName);
+            Console.WriteLine(GetTwitUser(UserId).Follows);
+
+
+            if (FollowerList.Count() == 0)
             {
-                return null;
+                return FollowerList ?? Enumerable.Empty<Twit>().ToList();
+
             }
             else
             {

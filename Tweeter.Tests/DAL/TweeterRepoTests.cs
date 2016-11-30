@@ -23,6 +23,7 @@ namespace Tweeter.Tests.DAL
         private List<ApplicationUser> app_users { get; set; }
 
         private TweeterRepository repo { get; set; }
+        private Twit test_bot;
         private Twit Bob;
         private Twit Joe;
         private Tweet new_tweet;
@@ -75,12 +76,14 @@ namespace Tweeter.Tests.DAL
             mock_context = new Mock<TweeterContext>();
             mock_tweets = new Mock<DbSet<Tweet>>();
             mock_users = new Mock<DbSet<Twit>>();
+            mock_application_users = new Mock<DbSet<ApplicationUser>>();
             repo = new TweeterRepository(mock_context.Object);
             tweets = new List<Tweet>();
             users = new List<Twit>();
             app_users = new List<ApplicationUser>();
-            Bob = new Twit { TwitName = "Bob", TwitId = 1 };
-            Joe = new Twit { TwitName = "Joe", TwitId = 2 };
+            test_bot = new Twit { TwitName = "TestBot", TwitId = 1, BaseUser = new ApplicationUser() { UserName = "Testbot", Id = "1" } };
+            Bob = new Twit { TwitName = "Bob", TwitId = 2, BaseUser = new ApplicationUser() { UserName = "Bob", Id = "2" }, Follows =  new List<Twit> { test_bot } };
+            Joe = new Twit { TwitName = "Joe", TwitId = 3, BaseUser = new ApplicationUser() { UserName = "Joe", Id = "3" }, Follows =  new List<Twit> { test_bot } };
             new_tweet = new Tweet { TweetId = 1, Message = "Hi, I'm Bob!" };
             last_tweet = new Tweet { TweetId = 2, Message = "Go to hell, Bob." };
             tweets.Add(new_tweet); tweets.Add(last_tweet);
@@ -157,17 +160,15 @@ namespace Tweeter.Tests.DAL
         [TestMethod]
         public void EnsureCanListTwitsUserIsFollowingByUserId()
         {
-            int actuallFollowers = repo.GetListOfTwitsUserFollows(1).Count();
-            int expectedFollowers = 0;
+            int actuallFollowers = repo.GetListOfTwitsUserFollows(2).Count();
+            int expectedFollowers = 1;
             Assert.AreEqual(expectedFollowers, actuallFollowers);
         }
         [TestMethod]
         public void EnsureCanAddUserToFollowingByUserId()
         {
-            //Assert.IsTrue(repo.GetListOfTwitsUserFollows(1).Count() == 0);
-            repo.FollowUser(1, 2);
-            Assert.IsTrue(repo.GetListOfTwitsUserFollows(1).Count() == 1);
-
+            repo.FollowUser(2, 3);
+            Assert.IsTrue(repo.GetListOfTwitsUserFollows(2).Count() == 2);
         }
         [TestMethod]
         public void EnsureUserCannotFollowSelf()
