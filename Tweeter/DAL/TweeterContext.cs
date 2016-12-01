@@ -12,5 +12,6 @@ namespace Tweeter.DAL
         public virtual DbSet<Tweet> Tweets { get; set; }
         public virtual DbSet<Twit> TweeterUsers { get; set; }
         public virtual DbSet<ApplicationUser> User_Database { get; set; }
+        public virtual DbSet<Follow> AllFollows { get; set; }
     }
 }

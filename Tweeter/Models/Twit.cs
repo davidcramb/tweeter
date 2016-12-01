@@ -12,7 +12,6 @@ namespace Tweeter.Models
         public int TwitId { get; set; }
         public string TwitName { get; set; }
         public virtual ApplicationUser BaseUser { get; set; }
-        public List<Twit> Follows { get; set; }
 
         /*
          * Maybe just add a Username field here

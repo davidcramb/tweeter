@@ -21,8 +21,8 @@ namespace Tweeter.Migrations
             context.TweeterUsers.AddOrUpdate(
                 t => t.TwitName,
                 twit_bot,
-                new Models.Twit { TwitId = 1, TwitName = "Bob", Follows = new System.Collections.Generic.List<Models.Twit> { twit_bot } },
-                new Models.Twit { TwitId = 2, TwitName = "Joe", Follows = new System.Collections.Generic.List<Models.Twit> { twit_bot } });
+                new Models.Twit { TwitId = 1, TwitName = "Bob" },
+                new Models.Twit { TwitId = 2, TwitName = "Joe" });
             //context.Tweets.AddOrUpdate(
             //    tweet => tweet.TweetId,
             //    new Models.Tweet { TweetId = 1, TwitName = new Models.Twit { TwitId = 1, TwitName = "Bob" }, Message = "Hi, I'm Bob!" },

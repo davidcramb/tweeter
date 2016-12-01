@@ -59,6 +59,12 @@ namespace Tweeter.DAL
             Twit query = Context.TweeterUsers.FirstOrDefault(n => n.TwitName.ToLower() == name);
             return query;
         }
+
+        internal void UnfollowUser(string userName, string user_to_unfollow)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Tweet> GetTweets()
         {
             return Context.Tweets.ToList();
@@ -81,6 +87,11 @@ namespace Tweeter.DAL
             Twit found_user = Context.TweeterUsers.FirstOrDefault(u => u.TwitId == id);
             return found_user;
         }
+        public Twit GetTwitUser(string name)
+        {
+            Twit found_user = Context.TweeterUsers.FirstOrDefault(u => u.TwitName.ToLower() == name.ToLower());
+            return found_user;
+        }
         public void AddTweet(Tweet new_tweet)
         {
             Context.Tweets.Add(new_tweet);
@@ -98,13 +109,13 @@ namespace Tweeter.DAL
             Context.Tweets.Remove(TweetById);
             Context.SaveChanges();
         }
-        public List<Twit> GetListOfTwitsUserFollows(int UserId)
+        public List<Follow> GetListOfTwitsUserFollows(int UserId)
         {
             //Twit user = Context.TweeterUsers.First(twit => twit.TwitId == UserId);
-            List<Twit> FollowerList = GetTwitUser(UserId).Follows;
+            List<Follow> FollowerList = Context.AllFollows.Where(u => u.TwitFollower.TwitId == UserId).ToList();
             if (FollowerList.Count() == 0)
             {
-                return FollowerList ?? Enumerable.Empty<Twit>().ToList();
+                return FollowerList ?? Enumerable.Empty<Follow>().ToList();
             }
             else
             {
@@ -112,20 +123,52 @@ namespace Tweeter.DAL
             }
         }
 
-        public void FollowUser(int UserId, int UserIdToFollow)
+        public bool FollowUser(int UserId, int UserIdToFollow)
         {
-            Twit IdiotQuery = Context.TweeterUsers.SingleOrDefault(idiot => idiot.TwitId == UserIdToFollow);
-            Twit userQuery = Context.TweeterUsers.SingleOrDefault(user => user.TwitId == UserId);
+            //Twit IdiotQuery = Context.TweeterUsers.SingleOrDefault(idiot => idiot.TwitId == UserIdToFollow);
+            //Twit userQuery = Context.TweeterUsers.SingleOrDefault(user => user.TwitId == UserId);
+            Follow userQuery = Context.AllFollows.SingleOrDefault(b => b.TwitFollower.TwitId == UserId);
+            Follow IdiotQuery = Context.AllFollows.SingleOrDefault(b => b.TwitFollowed.TwitId == UserIdToFollow);
+            if (IdiotQuery == null || userQuery == null)
+            {
+                return false;
+            }
             if (userQuery != IdiotQuery) {
                 try
                 {
-                    Context.TweeterUsers.SingleOrDefault(twit => twit.TwitId == UserId).Follows.Add(IdiotQuery);
+                    Context.AllFollows.Add(IdiotQuery);
                     Context.SaveChanges();
+                    return true;
                 }
                 catch (NullReferenceException e)
                 {
                     Console.WriteLine(e);
+                    return false;
                 }
+            }
+            return true;
+        }
+        public bool FollowUser(string currentUser, string userToFollow)
+        {
+            GetTwitUser(currentUser);
+            Twit found_current = GetTwitUser(currentUser);
+            Twit found_user_to_follow = GetTwitUser(userToFollow);
+            Follow followed_twit = new Follow { TwitFollower = found_current, TwitFollowed = found_user_to_follow };
+            if (found_current == null || found_user_to_follow == null)
+            {
+                return false;
+            }
+            if (currentUser == userToFollow)
+            {
+                return false;
+            }
+            else
+            {
+            Context.AllFollows.Add(followed_twit);
+            //found_current.Add(found_user_to_follow);
+            Context.SaveChanges();
+            return true;
+
             }
         }
     }

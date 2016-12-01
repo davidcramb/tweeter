@@ -13,6 +13,7 @@ namespace Tweeter.Controllers
     {
         // GET: api/Tweeter
         TweeterRepository repo = new TweeterRepository();
+
         public IEnumerable<string> Get()
         {
             return repo.GetUsernames();
