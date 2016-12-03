@@ -125,18 +125,17 @@ namespace Tweeter.DAL
 
         public bool FollowUser(int UserId, int UserIdToFollow)
         {
-            //Twit IdiotQuery = Context.TweeterUsers.SingleOrDefault(idiot => idiot.TwitId == UserIdToFollow);
-            //Twit userQuery = Context.TweeterUsers.SingleOrDefault(user => user.TwitId == UserId);
-            Follow userQuery = Context.AllFollows.SingleOrDefault(b => b.TwitFollower.TwitId == UserId);
-            Follow IdiotQuery = Context.AllFollows.SingleOrDefault(b => b.TwitFollowed.TwitId == UserIdToFollow);
-            if (IdiotQuery == null || userQuery == null)
+            Twit found_current = GetTwitUser(UserId);
+            Twit found_user_to_follow = GetTwitUser(UserIdToFollow);
+            Follow followed_twit = new Follow { TwitFollower = found_current, TwitFollowed = found_user_to_follow };
+            if (found_current == null || found_user_to_follow == null)
             {
                 return false;
             }
-            if (userQuery != IdiotQuery) {
+            if (found_current != found_user_to_follow) {
                 try
                 {
-                    Context.AllFollows.Add(IdiotQuery);
+                    Context.AllFollows.Add(followed_twit);
                     Context.SaveChanges();
                     return true;
                 }
@@ -165,7 +164,6 @@ namespace Tweeter.DAL
             else
             {
             Context.AllFollows.Add(followed_twit);
-            //found_current.Add(found_user_to_follow);
             Context.SaveChanges();
             return true;
 

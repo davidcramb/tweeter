@@ -108,6 +108,7 @@ namespace Tweeter.Tests.DAL
             last_tweet = new Tweet { TweetId = 2, Message = "Go to hell, Bob." };
             tweets.Add(new_tweet); tweets.Add(last_tweet);
             users.Add(Bob); users.Add(Joe);
+            follows.Add(followed); follows.Add(followed2);
             ConnectToDatastore();
 
             /* 
@@ -188,8 +189,12 @@ namespace Tweeter.Tests.DAL
         [TestMethod]
         public void EnsureCanAddUserToFollowingByUserId()
         {
+            int expectedstart = 1;
+            int actualstart = repo.GetListOfTwitsUserFollows(2).Count();
+            Assert.AreEqual(expectedstart, actualstart);
             repo.FollowUser(2, 3);
-            Assert.IsTrue(repo.GetListOfTwitsUserFollows(2).Count() == 2);
+            Assert.AreEqual(2, repo.GetListOfTwitsUserFollows(2).Count());
+            //Assert.IsTrue(repo.GetListOfTwitsUserFollows(2).Count() == 2);
         }
         [TestMethod]
         public void EnsureCanFollowWithString()
