@@ -14,19 +14,28 @@ namespace Tweeter.DAL
             Context = _context;
         }
 
-        public TweeterRepository() {}
+        public TweeterRepository() {
+            Context = new TweeterContext();
+        }
 
+        public List<Twit> GetUsers()
+        {
+            return Context.TweeterUsers.ToList();
+        }
+
+        public Twit AddUser(Twit user)
+        {
+            Context.TweeterUsers.Add(user);
+            Context.SaveChanges();
+            return user;
+        }
         public List<string> GetUsernames()
         {
             return Context.TweeterUsers.Select(u => u.BaseUser.UserName).ToList();
         }
 
-        public Twit UsernameExists(string v)
-        {
-            return Context.TweeterUsers.FirstOrDefault(u => u.BaseUser.UserName.ToLower() == v.ToLower());
-        }
 
-        public bool UserNameExists(string v)
+        public bool UsernameExists(string v)
         {
             if (Context.Users.Any(u => u.UserName.Contains(v)))
             {
@@ -35,5 +44,10 @@ namespace Tweeter.DAL
             return false;
         }
 
+        public Twit GetUserByName(string name)
+        {
+            Twit query = Context.TweeterUsers.FirstOrDefault(n => n.TwitName.ToLower() == name);
+            return query;
+        }
     }
 }
